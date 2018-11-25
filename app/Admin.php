@@ -6,9 +6,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use Notifiable;
+
+    protected $guard = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -28,18 +30,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
-
-    public function is_admin() {
-        if($this->admin)
-        {
-            return true;
-        }
-            return false;
-    }
-
-
+    // public function tasks()
+    // {
+    //     return $this->hasMany(Task::class);
+    // }
 }
