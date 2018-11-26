@@ -1,20 +1,28 @@
     @extends('layouts.master')
 
     @section('content')
+     <div class="container">
+        <div class="row justify-content-center">
+        <a class="nav-link" href="{{ route('admin.indexuser') }}">{{ __('Registered User') }}</a>
+        <a class="nav-link" href="{{ route('admin.indextask') }}">{{ __('All User Task') }}</a>
+    </div>
+</div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" align="center"><h3>Your Task List</h3>
+                <div class="card-header" align="center"><h3>Registered User List</h3>
                 </div>
             <div class="card-body">
                 <div class="col-md-12">
-                    <center><a href="{{ URL('task/create')}}" class="btn btn-link btn-xs"><h5>New Task</h5></a></center>
+                    <center><a href="{{ route('admin.userCreate')}}" class="btn btn-link btn-xs"><h5>New User</h5></a></center>
                     <div class="table-responsive">    
                         <table class="table table-striped table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Task Details</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Name</th>
+                                    <th class="text-center">Email</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -24,19 +32,17 @@
                             </div>
                         @endif
                             <tbody>
-                                @foreach ($tasks as $task)
+                                @foreach ($users as $user)
                                 <!-- ($tasks as $key => $task) -->
                                 <tr>
-                                    <td>{{ $task->task_name }} </td>
+                                    <td>{{ $user->id }} </td>
+                                    <td>{{ $user->name }} </td>
+                                    <td>{{ $user->email }} </td>
                                     <td>
-                                    <center>
-                                <a href="{{ URL('task/' . $task->id.'/edit') }}" class="btn btn-md btn-link">Edit</a>
-                                <form action="{{ URL('task/' . $task->id) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE')}}
-                                    <button type="submit" class="btn btn-md btn-link">Delete</button>
-                                </form>
-                                    </center>
+                                        <center>
+                                         <a href="{{ route("admin.taskCreate", ["userId" => $user->id]) }}">New Task | </a>
+                                         <a href="{{ route("admin.edituser", ["userId" => $user->id]) }}">Edit | </a>
+                                         <a href="{{ route("admin.deleteuser", ["userId" => $user->id]) }}">Delete</a></center>
                                      </td>
                                 </tr>
                                 @endforeach

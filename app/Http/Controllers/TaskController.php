@@ -42,6 +42,10 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            "task_name" => "required"
+        ]);
+
         try {
             \DB::beginTransaction();
             $user = User::findOrFail($request->user_id);
@@ -51,6 +55,7 @@ class TaskController extends Controller
             // $request->user_id
             $task->save();
             \DB::commit();
+            $request->session()->flash('success', "Successfully create task.");
             return redirect('task');
             // return redirect()->route("task.index");
         }
@@ -93,6 +98,10 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
+         $this->validate($request, [
+            "task_name" => "required"
+        ]);
+
         try{
             \DB::beginTransaction();
             $user = User::findOrFail($request->user_id);
@@ -101,7 +110,8 @@ class TaskController extends Controller
             $task->user_id = $user->id;
             $task->save();
             \DB::commit();
-            return redirect ('task')->with('succes', 'Data has been successfully sent!');
+           $request->session()->flash('success', "Successfully updated task.");
+            return redirect('task');
             }catch (Exception $e){
                 \DB::rollback();
                 \Log::error($e);
@@ -115,7 +125,7 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request,$id)
     {
         try {
             \DB::beginTransaction();
@@ -123,7 +133,8 @@ class TaskController extends Controller
             $task->delete();
             // $task->destroy($id);
             \DB::commit();
-            return redirect ('task');
+            $request->session()->flash('success', "Successfully deleted your task.");
+            return redirect()->back();
             // return redirect()->route("task.index");
         }
             catch (Exception $e){
