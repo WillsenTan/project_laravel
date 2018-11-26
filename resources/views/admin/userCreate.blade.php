@@ -76,7 +76,7 @@
                         </div>
 
 			
-			<center><button type="submit" class="btn btn-md btn-success">SAVE</button>
+			<center><button type="submit" class="btn btn-md btn-success">Save</button>
 				<a href="{{ route("admin.indexuser") }}" class="btn btn-primary">Cancel</a></center>
 		</form>
 		</div>
